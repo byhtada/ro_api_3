@@ -1,24 +1,24 @@
+# Start from the official Ruby image
 FROM ruby:3.2.3
 
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
+# Install Node.js and Yarn (needed for Rails asset compilation)
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
 
-WORKDIR /usr/src/app
+# Set the working directory
+WORKDIR /myapp
 
-COPY Gemfile Gemfile.lock ./
+# Add the Gemfile and Gemfile.lock to the image
+COPY Gemfile /myapp/Gemfile
+COPY Gemfile.lock /myapp/Gemfile.lock
+
+# Install gems
 RUN bundle install
 
-# Копирование кода приложения в контейнер
-ENV APP_HOME /app
-COPY . $APP_HOME
-WORKDIR $APP_HOME
+# Copy the rest of the application into the image
+COPY . /myapp
 
-# Настройка переменных окружения для production
-ENV RAILS_ENV=production \
-    RACK_ENV=production
-
-# Проброс порта 3000 
+# Expose the port that the Rails server will run on
 EXPOSE 3000
 
-# Запуск по умолчанию сервера puma
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+# Define the command to start the server
+CMD ["rails", "server", "-b", "0.0.0.0"]
