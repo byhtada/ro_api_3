@@ -8,6 +8,7 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
   config.hosts << "roapi31-t7yqnygi.b4a.run"
+  config.hosts << "node84a.containers.back4app.com:5051"
   # Do not eager load code on boot.
   config.eager_load = false
 
