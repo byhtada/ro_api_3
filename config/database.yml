@@ -6,8 +6,8 @@ default: &default
 development:
   <<: *default
   database: db/developmentro
-  username: postgres
-  password: 240093
+  #username: postgres
+  #password: 240093
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
